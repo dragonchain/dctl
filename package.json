@@ -1,0 +1,19 @@
+{
+  "name": "dctl",
+  "version": "1.0.0",
+  "description": "Get your Dragonchain out of it's shell.",
+  "preferGlobal": true,
+  "bin": {
+    "dctl": "./src/dctl.js"
+  },
+  "repository":"https://github.com/dragonchain-inc/dctl",
+  "author": "Dragonchain, Inc.",
+  "license": "ISC",
+  "dependencies": {
+    "commander": "^2.20.0",
+    "dragonchain-sdk": "^3.0.3",
+    "get-stdin": "^7.0.0",
+    "ini": "^1.3.5",
+    "readline-sync": "^1.4.9"
+  }
+}
