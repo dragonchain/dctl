@@ -1,6 +1,6 @@
 {
   "name": "dctl",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Get your Dragonchain out of it's shell.",
   "preferGlobal": true,
   "bin": {

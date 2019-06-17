@@ -9,6 +9,10 @@ program
   .parse(process.argv);
 
 util.wrapper(program, async client => {
-  const response = await client.getPublicBlockchainAddresses();
-  console.log(JSON.stringify(response, null, 2));
+  try {
+    const response = await client.getPublicBlockchainAddresses();
+    console.log(JSON.stringify(response, null, 2));
+  } catch(e) {
+    console.error(e.message)
+  }
 });
