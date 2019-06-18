@@ -12,12 +12,13 @@ program
   .parse(process.argv);
 
 const { tag, callbackURL } = program;
-const [transactionType, payload] = program.args;
+let [transactionType, payload] = program.args;
 (async () => {
   await wrapper(program, async client => {
     try {
       if (!transactionType) throw new Error('Error: Missing Param "transactionType"');
       if (!payload) throw new Error('Error: Missing Param "payload"');
+      try {payload = JSON.parse(payload) } catch(e) {}
       const result = await client.createTransaction(removeUndefined({ transactionType, payload, tag, callbackURL }));
       console.log(JSON.stringify(result, null, 2));
     } catch (e) {
