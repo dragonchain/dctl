@@ -12,9 +12,18 @@ program
   .option("-s, --serial", "Serial execution only. (parallel execution OK when omitted)")
   .option("-d, --disable", "Disable this SmartContract")
   .option("-v, --verbose", "(optional) Enable STDOUT logger in your Dragonchain SDK.")
+  .option("-r, --registry-credentials [registryCredentials]", "(optional) Credentials to private docker registry.")
   .option("-i, --dragonchainId [dragonchainID]", "(optional) Override the default dragonchain ID for this command.")
   .action((transactionType, image, cmd, containerArgs, options) => {
-    const { serial, disable, environmentVariables, secrets, scheduleIntervalInSeconds, cronExpression } = options;
+    const {
+      serial,
+      disable,
+      environmentVariables,
+      secrets,
+      scheduleIntervalInSeconds,
+      cronExpression,
+      registryCredentials
+    } = options;
 
     util.wrapper(program, async client => {
       const params = util.removeUndefined({
@@ -22,6 +31,7 @@ program
         image,
         cmd,
         secrets,
+        registryCredentials,
         cronExpression,
         args: containerArgs,
         scheduleIntervalInSeconds: scheduleIntervalInSeconds && Number(scheduleIntervalInSeconds),
