@@ -24,6 +24,7 @@ program
   .option("-d, --disable", "Disable this SmartContract")
   .option("-v, --verbose", "(optional) Enable STDOUT logger in your Dragonchain SDK.")
   .option("-i, --dragonchain-id [dragonchainID]", "(optional) Override the default dragonchain ID for this command.")
+  .option("-r, --registry-credentials [registryCredentials]", "(optional) Credentials to private docker registry.")
   .parse(process.argv);
 
 const {
@@ -35,7 +36,8 @@ const {
   environmentVariables,
   secrets,
   scheduleIntervalInSeconds,
-  cronExpression
+  cronExpression,
+  registryCredentials
 } = program;
 const [smartContractId] = program.args;
 
@@ -48,6 +50,7 @@ util.wrapper(program, async client => {
       secrets,
       cronExpression,
       executionOrder,
+      registryCredentials,
       args: Boolean(containerArgs.length) && containerArgs,
       environmentVariables: environmentVariables ? JSON.parse(environmentVariables) : undefined,
       scheduleIntervalInSeconds: scheduleIntervalInSeconds && Number(scheduleIntervalInSeconds),
