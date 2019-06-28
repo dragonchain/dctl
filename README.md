@@ -93,7 +93,7 @@ $ dctl t c MyTransactionType 'Hi there!'
 > { "status": 201, "response": { "transaction_id": "..." }, "ok": true }
 ```
 
-Is equivilent to...
+Is equivalent to...
 
 ```sh
 $ dctl transaction create MyTransactionType 'Hi there!'
