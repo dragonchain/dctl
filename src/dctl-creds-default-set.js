@@ -15,12 +15,9 @@ program
 util.errorHandler(() => {
   const [chainId] = program.args;
   if (!chainId) throw new Error('Missing Param: chainId');
-  const currentConfig = ini.parse(fs.readFileSync(util.getConfigFilePath(), 'utf-8'));
-  if (!currentConfig[chainId]) throw new Error(`${chainId} has not been added yet. Try using the "dctl creds add" command.`);
-  const newConfig = {
-    ...currentConfig,
-    default: { dragonchain_id: chainId }
-  };
-  fs.writeFileSync(util.getConfigFilePath(), ini.stringify(newConfig));
+  const config = ini.parse(fs.readFileSync(util.getConfigFilePath(), 'utf-8'));
+  if (!config[chainId]) throw new Error(`${chainId} has not been added yet. Try using the "dctl creds add" command.`);
+  config.default = { dragonchain_id: chainId };
+  fs.writeFileSync(util.getConfigFilePath(), ini.stringify(config));
   console.log(`Success. Default has been set to "${chainId}".`);
 });

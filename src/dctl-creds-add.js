@@ -31,13 +31,10 @@ util.errorHandler(() => {
     console.log(configPath, 'does not exist. Creating.');
     fs.writeFileSync(configPath, '');
   }
-  const currentConfig = ini.parse(fs.readFileSync(configPath, 'utf-8'));
-  const newConfig = {
-    ...currentConfig,
-    [dragonchain_id]: { auth_key, auth_key_id, endpoint }
-  };
-  if (!program.dontSetDefault) newConfig.default = { dragonchain_id };
-  fs.writeFileSync(configPath, ini.stringify(newConfig));
+  const config = ini.parse(fs.readFileSync(configPath, 'utf-8'));
+  config[dragonchain_id] = { auth_key, auth_key_id, endpoint };
+  if (!program.dontSetDefault) config.default = { dragonchain_id };
+  fs.writeFileSync(configPath, ini.stringify(config));
   if (!program.dontSetDefault) console.log(`Default Dragonchain set to ${dragonchain_id}.`);
   console.log(`Success. New Credentials written to ${configPath}`);
 });

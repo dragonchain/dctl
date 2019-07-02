@@ -17,7 +17,7 @@
     "printWidth": 180
   },
   "eslintConfig": {
-    "parser": "babel-eslint",
+    "parser": "esprima",
     "extends": [
       "eslint:recommended",
       "prettier"
