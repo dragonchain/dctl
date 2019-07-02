@@ -6,7 +6,7 @@ Get your dragonchain out of its shell.
 
 This commandline tool is a thin wrapper around the [dragonchain nodejs sdk](https://www.npmjs.com/package/dragonchain-sdk) using [commander](https://www.npmjs.com/package/commander).
 
-```sh
+```text
 Usage: dctl [options] [command]
 
 Options:
@@ -34,8 +34,7 @@ Commands:
 Install using NPM
 
 ```sh
-$ npm install -g dctl
-> ...
+npm install -g dctl
 ```
 
 ## Usage Examples
@@ -47,13 +46,11 @@ Here is a quick example showing SmartContract creation and invocation:
 ### Getting Help
 
 ```sh
-$ dctl --help
-> ...
+dctl --help
 ```
 
 ```sh
-$ dctl <anyCommand...> --help
-> ...
+dctl <anyCommand...> --help
 ```
 
 ### Credentials
@@ -61,27 +58,27 @@ $ dctl <anyCommand...> --help
 #### Adding New Dragonchain Credentials
 
 ```sh
-$ dctl creds add yourDcIdHere -e http://localhost:8080
-> HMAC KEY ID: UAKRHCSOKTYH
-> HMAC KEY: ***********************************************
-> Default Dragonchain set to yourDcIdHere.
-> Success. New Credentials written to /Users/?/.dragonchain/credentials
+dctl creds add yourDcIdHere -e http://localhost:8080
+HMAC KEY ID: UAKRHCSOKTYH
+HMAC KEY: ***********************************************
+Default Dragonchain set to yourDcIdHere.
+Success. New Credentials written to /Users/?/.dragonchain/credentials
 ```
 
 #### Listing Dragonchain Credentials
 
 ```sh
-$ dctl creds ls
->   {
-    "default": {
-      "dragonchain_id": "..."
-    },
-    "...": {
-      "auth_key": "<hidden>",
-      "auth_key_id": "UAKRHCSOKTYH",
-      "endpoint": "..."
-    }
+dctl creds ls
+  {
+  "default": {
+    "dragonchain_id": "..."
+  },
+  "...": {
+    "auth_key": "<hidden>",
+    "auth_key_id": "UAKRHCSOKTYH",
+    "endpoint": "..."
   }
+}
 ```
 
 #### Alias/Shorthand Commands
@@ -89,30 +86,30 @@ $ dctl creds ls
 Most commands/subcommands have a one-letter alias.
 
 ```sh
-$ dctl t c MyTransactionType 'Hi there!'
-> { "status": 201, "response": { "transaction_id": "..." }, "ok": true }
+dctl t c MyTransactionType 'Hi there!'
+{ "status": 201, "response": { "transaction_id": "..." }, "ok": true }
 ```
 
 Is equivalent to...
 
 ```sh
-$ dctl transaction create MyTransactionType 'Hi there!'
-> { "status": 201, "response": { "transaction_id": "..." }, "ok": true }
+dctl transaction create MyTransactionType 'Hi there!'
+{ "status": 201, "response": { "transaction_id": "..." }, "ok": true }
 ```
 
 #### Getting Transactions
 
 ```sh
-$ dctl transaction get 7d1fa05a-ea6f-44a5-a1b8-8568eb701a8c
-> { "status": 201, "response": {...}, "ok": true }
+dctl transaction get 7d1fa05a-ea6f-44a5-a1b8-8568eb701a8c
+{ "status": 201, "response": {...}, "ok": true }
 
 ```
 
 ### Updating Contracts
 
 ```sh
-$ dctl c u a57afbb0-9cab-4538-adf8-2fdbce9102fc -A newArg1 -A newArg2
-> {
+dctl c u a57afbb0-9cab-4538-adf8-2fdbce9102fc -A newArg1 -A newArg2
+{
   "status": 202,
   "response": {
     "success": {
@@ -152,39 +149,39 @@ $ dctl c u a57afbb0-9cab-4538-adf8-2fdbce9102fc -A newArg1 -A newArg2
 ### Creating Contracts
 
 ```sh
-$ dctl c c coolcontract dragonchain/interchain-watcher:prod-1.0.0 node index.js -n 6 -s -e '{"myvar":"custom","whatever":"foo"}'
-> {
-   "status": 202,
-   "response": {
-     "success": {
-       "dcrn": "SmartContract::L1::AtRest",
-       "version": "1",
-       "txn_type": "PrivateEthWatcher",
-       "id": "a57afbb0-9cab-4538-adf8-2fdbce9102fc",
-       "status": {
-         "state": "Pending",
-         "msg": "Contract creating",
-         "timestamp": "2019-06-07 17:35:54.720967"
-       },
-       "image": "dragonchain/interchain-watcher:prod-1.0.0",
-       "auth_key_id": null,
-       "image_digest": null,
-       "cmd": "node",
-       "args": [
-         "index.js"
-       ],
-       "env": {
-         "myvar": "custom",
-         "whatever": "foo",
-       },
-       "existing_secrets": null,
-       "cron": null,
-       "seconds": 6,
-       "execution_order": "serial"
-     }
-   },
-   "ok": true
- }
+dctl c c coolcontract dragonchain/interchain-watcher:prod-1.0.0 node index.js -n 6 -s -e '{"myvar":"custom","whatever":"foo"}'
+{
+  "status": 202,
+  "response": {
+    "success": {
+      "dcrn": "SmartContract::L1::AtRest",
+      "version": "1",
+      "txn_type": "PrivateEthWatcher",
+      "id": "a57afbb0-9cab-4538-adf8-2fdbce9102fc",
+      "status": {
+        "state": "Pending",
+        "msg": "Contract creating",
+        "timestamp": "2019-06-07 17:35:54.720967"
+      },
+      "image": "dragonchain/interchain-watcher:prod-1.0.0",
+      "auth_key_id": null,
+      "image_digest": null,
+      "cmd": "node",
+      "args": [
+        "index.js"
+      ],
+      "env": {
+        "myvar": "custom",
+        "whatever": "foo",
+      },
+      "existing_secrets": null,
+      "cron": null,
+      "seconds": 6,
+      "execution_order": "serial"
+    }
+  },
+  "ok": true
+}
 ```
 
 ## Helpful Jq Alias'
@@ -202,15 +199,15 @@ alias d-scls="dctl c ls | jq '.response.results[] | [(.txn_type, .id)]' | jq -s 
 
 ```sh
 # List Smartcontracts Names, Ids
-$ d-cls
+d-cls
 
-> [[
-    "coolcontract",
-    "4b95544c-d1a0-4f4a-ab9d-a098e3a1ce6a"
-  ],[
-    "myContract",
-    "7ccfae39-5e93-4ca3-ad9e-7d1edf5ce3c2"
-  ]]
+[[
+  "coolcontract",
+  "4b95544c-d1a0-4f4a-ab9d-a098e3a1ce6a"
+],[
+  "myContract",
+  "7ccfae39-5e93-4ca3-ad9e-7d1edf5ce3c2"
+]]
 ```
 
 ## Contributing

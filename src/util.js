@@ -1,5 +1,5 @@
-const { createClient, setLogger } = require("dragonchain-sdk");
-const path = require("path");
+const { createClient, setLogger } = require('dragonchain-sdk');
+const path = require('path');
 
 const wrapper = async function wrapper(program, cb) {
   try {
@@ -7,7 +7,15 @@ const wrapper = async function wrapper(program, cb) {
     let client;
     if (program.dragonchainId) client = await createClient({ dragonchainId: program.dragonchainId });
     else client = await createClient();
-    cb(client);
+    errorHandler(() => cb(client));
+  } catch (e) {
+    console.error(e.message);
+  }
+};
+
+const errorHandler = async callback => {
+  try {
+    await callback();
   } catch (e) {
     console.error(e.message);
   }
@@ -19,18 +27,24 @@ const removeUndefined = obj => {
 };
 
 const getConfigFilePath = () => {
-  const home = require("os").homedir();
-  if (process.platform === "win32") {
-    return path.join(home, "dragonchain", "credentials");
+  const home = require('os').homedir();
+  if (process.platform === 'win32') {
+    return path.join(home, 'dragonchain', 'credentials');
   }
-  return path.join(home, ".dragonchain", "credentials");
+  return path.join(home, '.dragonchain', 'credentials');
 };
 
 const getConfigDirPath = () => {
-  const home = require("os").homedir();
-  if (process.platform === "win32") {
-    return path.join(home, "dragonchain");
+  const home = require('os').homedir();
+  if (process.platform === 'win32') {
+    return path.join(home, 'dragonchain');
   }
-  return path.join(home, ".dragonchain");
+  return path.join(home, '.dragonchain');
 };
-module.exports = { wrapper, getConfigFilePath, getConfigDirPath, removeUndefined };
+module.exports = {
+  wrapper,
+  getConfigFilePath,
+  getConfigDirPath,
+  removeUndefined,
+  errorHandler
+};

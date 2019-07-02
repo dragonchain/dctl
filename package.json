@@ -1,19 +1,65 @@
 {
   "name": "dctl",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Get your Dragonchain out of it's shell.",
   "preferGlobal": true,
   "bin": {
     "dctl": "./src/dctl.js"
   },
-  "repository":"https://github.com/dragonchain-inc/dctl",
-  "author": "Dragonchain, Inc.",
-  "license": "ISC",
+  "scripts": {
+    "format": "prettier --write src/**/* src/*",
+    "lint": "eslint --ext .js --format unix src/ && prettier --check src/**/* src/*"
+  },
+  "prettier": {
+    "tabWidth": 2,
+    "semi": true,
+    "singleQuote": true,
+    "printWidth": 180
+  },
+  "eslintConfig": {
+    "parser": "espree",
+    "parserOptions": {
+      "ecmaVersion": 8,
+      "sourceType": "module"
+    },
+    "extends": [
+      "eslint:recommended",
+      "prettier"
+    ],
+    "env": {
+      "browser": false,
+      "node": true,
+      "es6": true
+    },
+    "rules": {
+      "no-console": "off",
+      "max-len": [
+        "error",
+        {
+          "code": 200
+        }
+      ]
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dragonchain-inc/dctl.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dragonchain-inc/dctl/issues"
+  },
+  "author": "Dragonchain, Inc. <support@dragonchain.com>",
+  "license": "Apache-2.0",
   "dependencies": {
     "commander": "^2.20.0",
-    "dragonchain-sdk": "^3.0.3",
+    "dragonchain-sdk": "^3.0.8",
     "get-stdin": "^7.0.0",
     "ini": "^1.3.5",
     "readline-sync": "^1.4.9"
+  },
+  "devDependencies": {
+    "eslint": "^6.0.1",
+    "eslint-config-prettier": "^6.0.0",
+    "prettier": "^1.18.2"
   }
 }
