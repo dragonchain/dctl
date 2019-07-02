@@ -7,13 +7,35 @@
     "dctl": "./src/dctl.js"
   },
   "scripts": {
-    "format": "prettier --write src/**/* src/*"
+    "format": "prettier --write src/**/* src/*",
+    "lint": "eslint --ext .js --format unix src/ && prettier --check src/**/* src/*"
   },
   "prettier": {
     "tabWidth": 2,
     "semi": true,
     "singleQuote": true,
     "printWidth": 180
+  },
+  "eslintConfig": {
+    "parser": "babel-eslint",
+    "extends": [
+      "eslint:recommended",
+      "prettier"
+    ],
+    "env": {
+      "browser": false,
+      "node": true,
+      "es6": true
+    },
+    "rules": {
+      "no-console": "off",
+      "max-len": [
+        "error",
+        {
+          "code": 200
+        }
+      ]
+    }
   },
   "repository": "https://github.com/dragonchain-inc/dctl",
   "author": "Dragonchain, Inc.",
@@ -26,6 +48,8 @@
     "readline-sync": "^1.4.9"
   },
   "devDependencies": {
+    "eslint": "^6.0.1",
+    "eslint-config-prettier": "^6.0.0",
     "prettier": "^1.18.2"
   }
 }

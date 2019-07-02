@@ -19,7 +19,7 @@ program
 util.wrapper(program, async client => {
   const { testNet, gasPrice, data, gas } = program;
   const [to, value] = program.args;
-  const network = Boolean(testNet) ? 'ETH_ROPSTEN' : 'ETH_MAINNET';
+  const network = testNet ? 'ETH_ROPSTEN' : 'ETH_MAINNET';
   const params = util.removeUndefined({
     network,
     gasPrice,

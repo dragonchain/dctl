@@ -19,7 +19,9 @@ program
     if (!payload) throw new Error('Error: Missing Param "payload"');
     try {
       payload = JSON.parse(payload);
-    } catch (e) {}
+    } catch (e) {
+      console.warn('Could not parse JSON for payload, sending raw data instead...');
+    }
     const result = await client.createTransaction(removeUndefined({ transactionType, payload, tag, callbackURL }));
     console.log(JSON.stringify(result, null, 2));
   });

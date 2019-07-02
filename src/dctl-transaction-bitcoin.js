@@ -15,7 +15,7 @@ program
 
 util.wrapper(program, async client => {
   const { testNet, satoshisPerByte, data, changeAddress, outputs } = program;
-  const network = Boolean(testNet) ? 'BTC_TESTNET3' : 'BTC_MAINNET';
+  const network = testNet ? 'BTC_TESTNET3' : 'BTC_MAINNET';
   const params = util.removeUndefined({
     network,
     satoshisPerByte,

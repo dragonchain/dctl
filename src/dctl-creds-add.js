@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-var pjson = require('../package.json');
 const program = require('commander');
 const fs = require('fs');
 const util = require('./util');
