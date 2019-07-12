@@ -17,7 +17,7 @@ program
     []
   )
   .option('-e, --environment-variables <environmentVariables>', 'JSON string of env vars for this SmartContract.')
-  .option('-s, --secrets <secrets>', 'Valid JSON string. {[Key:string]: Value:string}  of secrets to attach to this SmartContract.')
+  .option('-S, --secrets <secrets>', 'Valid JSON string. {[Key:string]: Value:string}  of secrets to attach to this SmartContract.')
   .option('-n, --schedule-interval-in-seconds <scheduleIntervalInSeconds>', 'Interval (in seconds) at which this contract will be auto-invoked.')
   .option('-c, --cron-expression <cronExpression>', 'Invoke this contract on a cron schedule.')
   .option('-o, --executionOrder <executionOrder>', "Execution Order. 'serial' or 'parallel'")
