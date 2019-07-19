@@ -21,10 +21,10 @@ program
     if (!payload) throw new Error('Error: Missing Param "payload"');
 
     if (program.file) {
-      try { 
-      payload = JSON.parse(fs.readFileSync(payload, 'utf8'));
+      try {
+        payload = JSON.parse(fs.readFileSync(payload, 'utf8'));
       } catch (e) {
-        throw new Error('Error: Payload file must be valid JSON'); 
+        throw new Error('Error: Payload file must be valid JSON');
       }
     } else {
       try {
