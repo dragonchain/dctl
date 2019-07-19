@@ -12,7 +12,7 @@ program
   .alias('d')
   .command('get', 'Get a SmartContract')
   .alias('g')
-  .command('ls', 'List smart conc utracts')
+  .command('ls', 'List smart conctracts')
   .alias('l')
   .command('secret', 'Get a SmartContract secret')
   .alias('s')
