@@ -10,6 +10,7 @@ program
   .option('-t, --tag <tag>', '(optional) Tag you want to add to this transaction.')
   .option('-v, --verbose', '(optional) Enable STDOUT logger in your Dragonchain SDK.')
   .option('-i, --dragonchainId [dragonchainID]', '(optional) Override the default dragonchain ID for this command.')
+  .option('-f, --file', '(optional) Pass in a JSON file path as payload instead of a raw string.')
   .parse(process.argv);
 
 (async () => {
@@ -18,19 +19,18 @@ program
     let [transactionType, payload] = program.args;
     if (!transactionType) throw new Error('Error: Missing Param "transactionType"');
     if (!payload) throw new Error('Error: Missing Param "payload"');
+
     try {
-      payload = JSON.parse(payload);
-    } catch (e) {
-      try {
+      if (program.file) {
         const payloadSplit = payload.split('.');
-        if (payloadSplit[payloadSplit.length -1] === 'json') {
+        if (payloadSplit[payloadSplit.length - 1] === 'json') {
           payload = JSON.parse(fs.readFileSync(payload, 'utf8'));
         } else {
-          throw 'Payload does not specify json path'; 
+          payload = JSON.parse(payload);
         }
-      } catch (e) {
-          console.warn('Could not parse JSON for payload, sending raw data instead...');
-        }
+      }
+    } catch (e) {
+      console.warn('Could not parse JSON for payload, sending raw data instead...');
     }
     const result = await client.createTransaction(removeUndefined({ transactionType, payload, tag, callbackURL }));
     console.log(JSON.stringify(result, null, 2));
