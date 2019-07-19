@@ -2,7 +2,7 @@ const program = require('commander');
 const util = require('./util');
 
 program
-  .description('Update a dragonchain HMAC Credential nickname.')
+  .description('Get a dragonchain HMAC Credential information by ID.')
   .arguments('<keyId>')
   .parse(process.argv);
 
