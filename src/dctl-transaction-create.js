@@ -20,18 +20,21 @@ program
     if (!transactionType) throw new Error('Error: Missing Param "transactionType"');
     if (!payload) throw new Error('Error: Missing Param "payload"');
 
-    try {
-      if (program.file) {
-        const payloadSplit = payload.split('.');
-        if (payloadSplit[payloadSplit.length - 1] === 'json') {
-          payload = JSON.parse(fs.readFileSync(payload, 'utf8'));
-        } else {
-          payload = JSON.parse(payload);
-        }
+    if (program.file) {
+      const payloadSplit = payload.split('.');
+      if (payloadSplit[payloadSplit.length - 1] === 'json') {
+        payload = JSON.parse(fs.readFileSync(payload, 'utf8'));
+      } else {
+        throw new Error('Error: Payload file must exist be valid JSON'); 
       }
-    } catch (e) {
-      console.warn('Could not parse JSON for payload, sending raw data instead...');
+    } else {
+      try {
+        payload = JSON.parse(payload);
+      } catch (e) {
+        console.warn('Could not parse JSON for payload, sending raw data instead...');
+      }
     }
+
     const result = await client.createTransaction(removeUndefined({ transactionType, payload, tag, callbackURL }));
     console.log(JSON.stringify(result, null, 2));
   });
