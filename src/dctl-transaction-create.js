@@ -21,10 +21,9 @@ program
     if (!payload) throw new Error('Error: Missing Param "payload"');
 
     if (program.file) {
-      const payloadSplit = payload.split('.');
-      if (payloadSplit[payloadSplit.length - 1] === 'json') {
-        payload = JSON.parse(fs.readFileSync(payload, 'utf8'));
-      } else {
+      try { 
+      payload = JSON.parse(fs.readFileSync(payload, 'utf8'));
+      } catch (e) {
         throw new Error('Error: Payload file must be valid JSON'); 
       }
     } else {
