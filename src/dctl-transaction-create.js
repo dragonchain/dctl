@@ -2,6 +2,7 @@
 
 const program = require('commander');
 const { wrapper, removeUndefined } = require('./util');
+const fs = require('fs');
 
 program
   .arguments('<transactionType> <payload>')
@@ -20,7 +21,16 @@ program
     try {
       payload = JSON.parse(payload);
     } catch (e) {
-      console.warn('Could not parse JSON for payload, sending raw data instead...');
+      try {
+        const payloadSplit = payload.split('.');
+        if (payloadSplit[payloadSplit.length -1] === 'json') {
+          payload = JSON.parse(fs.readFileSync(payload, 'utf8'));
+        } else {
+          throw 'Payload does not specify json path'; 
+        }
+      } catch (e) {
+          console.warn('Could not parse JSON for payload, sending raw data instead...');
+        }
     }
     const result = await client.createTransaction(removeUndefined({ transactionType, payload, tag, callbackURL }));
     console.log(JSON.stringify(result, null, 2));
