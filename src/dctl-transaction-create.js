@@ -25,7 +25,7 @@ program
       if (payloadSplit[payloadSplit.length - 1] === 'json') {
         payload = JSON.parse(fs.readFileSync(payload, 'utf8'));
       } else {
-        throw new Error('Error: Payload file must exist be valid JSON'); 
+        throw new Error('Error: Payload file must be valid JSON'); 
       }
     } else {
       try {
