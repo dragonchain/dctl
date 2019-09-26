@@ -1,13 +1,13 @@
-#!/usr/bin/env node
-
 const program = require('commander');
 const util = require('./util');
 
 program
-  .description('Get a Transaction Type.')
+  .description('Get a Transaction Type', {
+    transactionType: 'The transaction type to get'
+  })
   .arguments('<transactionType>')
-  .option('-v, --verbose', '(optional) Enable STDOUT logger in your Dragonchain SDK.')
-  .option('-i, --dragonchainId [dragonchainID]', '(optional) Override the default dragonchain ID for this command.')
+  .option('-v, --verbose', '(optional) Enable STDOUT logger in your Dragonchain SDK')
+  .option('-i, --dragonchainId [dragonchainID]', '(optional) Override the default dragonchain ID for this command')
   .parse(process.argv);
 
 util.wrapper(program, async client => {

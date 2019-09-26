@@ -1,14 +1,12 @@
-#!/usr/bin/env node
-
 const program = require('commander');
-const fs = require('fs');
 const util = require('./util');
+const fs = require('fs');
 const ini = require('ini');
 const readlineSync = require('readline-sync');
 
 program
-  .description('Remove credentials', {
-    chainId: 'The ID of the chain to be removed from your config.'
+  .description('Remove credentials from your local config', {
+    chainId: 'The ID of the chain to be removed from your config'
   })
   .arguments('<chainId>')
   .parse(process.argv);

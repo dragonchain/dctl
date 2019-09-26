@@ -1,13 +1,11 @@
-#!/usr/bin/env node
-
 const program = require('commander');
-const fs = require('fs');
 const util = require('./util');
+const fs = require('fs');
 const ini = require('ini');
 
 program
   .description('Set the current default chain ID', {
-    chainId: '(string) The chain ID to set as default.'
+    chainId: '(string) The chain ID to set as default'
   })
   .arguments('<chainId>')
   .parse(process.argv);

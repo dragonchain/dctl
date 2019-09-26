@@ -1,19 +1,18 @@
-#!/usr/bin/env node
-
 const program = require('commander');
-const wrapper = require('./util').wrapper;
+const util = require('./util');
 
 program
+  .description('Get a specific transaction', {
+    transactionId: 'The transaction id to get'
+  })
   .arguments('<transactionId>')
-  .option('-v, --verbose', '(optional) Enable STDOUT logger in your Dragonchain SDK.')
-  .option('-i, --dragonchainId [dragonchainID]', '(optional) Override the default dragonchain ID for this command.')
+  .option('-v, --verbose', '(optional) Enable STDOUT logger in your Dragonchain SDK')
+  .option('-i, --dragonchainId [dragonchainID]', '(optional) Override the default dragonchain ID for this command')
   .parse(process.argv);
 
-const [transactionId] = program.args;
-(async () => {
-  await wrapper(program, async client => {
-    if (!transactionId) throw new Error('Error: Missing Param "transactionId"');
-    const result = await client.getTransaction({ transactionId });
-    console.log(JSON.stringify(result, null, 2));
-  });
-})();
+util.wrapper(program, async client => {
+  const [transactionId] = program.args;
+  if (!transactionId) throw new Error('Error: Missing Param "transactionId"');
+  const result = await client.getTransaction({ transactionId });
+  console.log(JSON.stringify(result, null, 2));
+});

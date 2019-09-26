@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 const program = require('commander');
 const fs = require('fs');
 const util = require('./util');
@@ -7,12 +5,12 @@ const ini = require('ini');
 const readlineSync = require('readline-sync');
 
 program
-  .description('Add (or overwrite) a dragonchain HMAC Credential on this machine only.', {
+  .description('Add (or overwrite) a dragonchain HMAC Credential locally', {
     chainId: 'The Dragonchain Id to add (or overwrite).'
   })
   .arguments('<chainId>')
-  .option('-e, --endpoint <endpoint>', '(optional) Override endpoint which would be otherwise looked-up in dragonnet.')
-  .option('-d, --dont-set-default', '(optional) Do not change the currently set default dragonchain id.')
+  .option('-e, --endpoint <endpoint>', '(optional) Override endpoint which would be otherwise looked-up in dragonnet')
+  .option('-d, --dont-set-default', '(optional) Do not change the currently set default dragonchain id')
   .parse(process.argv);
 
 util.errorHandler(() => {

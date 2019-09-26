@@ -1,6 +1,4 @@
-#!/usr/bin/env node
-
-var pjson = require('../package.json');
+const pjson = require('../package.json');
 const program = require('commander');
 
 program
@@ -13,6 +11,4 @@ program
   .alias('l')
   .command('rm', 'Delete a Transaction Type')
   .alias('d')
-  .command('update', 'Update a Transaction Type')
-  .alias('u')
   .parse(process.argv);

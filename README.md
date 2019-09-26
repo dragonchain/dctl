@@ -26,8 +26,8 @@ Commands:
 
 ## System Requirements
 
-* NodeJs > 10.0
-* npm
+* NodeJs >= 10.0
+* npm (or equivalent like yarn)
 
 ## Install
 

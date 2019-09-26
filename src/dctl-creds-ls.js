@@ -1,12 +1,10 @@
-#!/usr/bin/env node
-
 const program = require('commander');
-const fs = require('fs');
 const util = require('./util');
+const fs = require('fs');
 const ini = require('ini');
 
 program
-  .description('List all credentials')
+  .description('List all credentials stored locally')
   .option('-k, --show-keys', 'Print the sensitive detals about the keys along with other data')
   .parse(process.argv);
 

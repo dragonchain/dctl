@@ -1,4 +1,5 @@
 const { createClient, setLogger } = require('dragonchain-sdk');
+const { platform, homedir } = require('os');
 const path = require('path');
 
 const wrapper = async function wrapper(program, cb) {
@@ -27,20 +28,16 @@ const removeUndefined = obj => {
 };
 
 const getConfigFilePath = () => {
-  const home = require('os').homedir();
-  if (process.platform === 'win32') {
-    return path.join(home, 'dragonchain', 'credentials');
-  }
-  return path.join(home, '.dragonchain', 'credentials');
+  return path.join(getConfigDirPath(), 'credentials');
 };
 
 const getConfigDirPath = () => {
-  const home = require('os').homedir();
-  if (process.platform === 'win32') {
-    return path.join(home, 'dragonchain');
+  if (platform() === 'win32') {
+    return path.join(process.env.LOCALAPPDATA, 'dragonchain');
   }
-  return path.join(home, '.dragonchain');
+  return path.join(homedir(), '.dragonchain');
 };
+
 module.exports = {
   wrapper,
   getConfigFilePath,

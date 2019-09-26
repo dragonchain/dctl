@@ -1,8 +1,6 @@
-#!/usr/bin/env node
-
 const program = require('commander');
-const fs = require('fs');
 const util = require('./util');
+const fs = require('fs');
 const ini = require('ini');
 
 program.description('Unset the current default chain ID').parse(process.argv);

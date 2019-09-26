@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 const program = require('commander');
 
 program
@@ -16,8 +14,7 @@ program
   .alias('l')
   .command('secret', 'Get a SmartContract secret')
   .alias('s')
-  .command('objectGet', 'Get a SmartContract object from stateful storage')
+  .command('object', 'Commands for interacting with the a smart contract heap')
   .alias('o')
-  .command('objectList', 'List SmartContract objects from stateful storage')
-  .alias('ols')
+  .command('logs', 'Get the logs of a smart contract')
   .parse(process.argv);
