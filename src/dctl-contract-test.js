@@ -28,7 +28,6 @@ program
       if (!directoryExists(localSecrets)) throw new Error(`Missing secrets directory "${localSecrets}". Try running 'dctl contract init --help'.`);
       if (!fileExists(localEnv)) throw new Error(`Missing .env file ${localEnv}. Try running 'dctl contract init --help'.`);
       const config = JSON.parse(await fs.promises.readFile(path.join(testRoot, 'config.json'), 'utf-8'));
-      console.log(`${config.webserverImage} ${config.webServerStartCommand}`)
       const webserverStartCommand = `docker run \
       -d \
       -l env=dragonchain_test_env \
