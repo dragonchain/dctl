@@ -34,6 +34,8 @@ async function main() {
     await createDirectoryOrFail(tempDirectory);
     exec(`git clone ${clonePath(https)} ${tempDirectory} --depth 1`);
     await fs.promises.rename(path.join(tempDirectory, `${language}_contract`), srcDirectory);
+    await fs.promises.rename(path.join(srcDirectory, 'config.json'), path.join(testDirectory, 'config.json'));
+    await fs.promises.rename(path.join(tempDirectory, 'README.md'), path.join(srcDirectory, 'README.md'));
     await del(tempDirectory);
   } else {
     console.log(
@@ -164,7 +166,14 @@ async function writeEnvFile(dir, json) {
   let envLines = await perJsonKey(json, async (envName, value) => `${envName}=${value}`);
   const changeMe = '"Change this value if you need to talk to a real dragonchain"';
   const envPath = path.join(dir, '.env');
-  envLines = envLines.concat([`DRAGONCHAIN_ID=${changeMe}`, `AUTH_KEY=${changeMe}`, `AUTH_KEY_ID=${changeMe}`, `DRAGONCHAIN_ENDPOINT=${changeMe}`]);
+  envLines = envLines.concat([
+    'SMART_CONTRACT_ID=dummy-value',
+    'DRAGONCHAIN_ENV=test',
+    `DRAGONCHAIN_ID=${changeMe}`,
+    `AUTH_KEY=${changeMe}`,
+    `AUTH_KEY_ID=${changeMe}`,
+    `DRAGONCHAIN_ENDPOINT=${changeMe}`
+  ]);
   writeWithLog(envPath, envLines.join('\n'));
 }
 
