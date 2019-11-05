@@ -28,7 +28,17 @@ program
       if (!directoryExists(localSecrets)) throw new Error(`Missing secrets directory "${localSecrets}". Try running 'dctl contract init --help'.`);
       if (!fileExists(localEnv)) throw new Error(`Missing .env file ${localEnv}. Try running 'dctl contract init --help'.`);
       const config = JSON.parse(await fs.promises.readFile(path.join(testRoot, 'config.json'), 'utf-8'));
+      const webserverStartCommand = `docker run \
+      -l env=dragonchain_test_env
+      -p 38404:8080 \
+      --env-file ${localEnv} \
+      --entrypoint '' \
+      ${config.webserverImage} ${webserverStartCommand}
+      `;
+      shell.exec(webserverStartCommand);
+      console.log('Booting fake webserver pod')
       const command = `printf '${transaction(payload)}' | docker run -i \
+      --rm
       -v ${localHeap}:${remoteHeap} \
       -v ${localSecrets}:${remoteSecrets}:ro \
       --env-file ${localEnv} \
@@ -101,4 +111,16 @@ async function directoryExists(dirPath) {
   } catch (e) {
     return false;
   }
+}
+
+/**
+ * killWebserver
+ * cleanup the webserver docker images after the tests were run
+ */
+async function killWebserver() {
+    try {
+        const psCommand = 'docker ps --filter env=dragonchain_test_env --format "{{.ID}}"'; // returns only the ID from containers that match this label
+    } catch (error) {
+
+    }
 }
