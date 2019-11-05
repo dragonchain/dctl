@@ -36,7 +36,7 @@ program
       ${config.webserverImage} ${webserverStartCommand}
       `;
       shell.exec(webserverStartCommand);
-      console.log('Booting fake webserver pod')
+      console.log('Booting fake webserver pod');
       const command = `printf '${transaction(payload)}' | docker run -i \
       --rm
       -v ${localHeap}:${remoteHeap} \
@@ -56,6 +56,8 @@ program
         console.warn(`warn: Contract output not valid JSON. Writing to "${raw}".`);
         await fs.promises.writeFile(raw, res.stdout);
       }
+      // cleanup docker
+      killWebserver();
     }
 
     // main with poor-man's error handler
@@ -117,10 +119,14 @@ async function directoryExists(dirPath) {
  * killWebserver
  * cleanup the webserver docker images after the tests were run
  */
-async function killWebserver() {
+function killWebserver() {
     try {
         const psCommand = 'docker ps --filter env=dragonchain_test_env --format "{{.ID}}"'; // returns only the ID from containers that match this label
+        const imageIds = shell.exec(psCommand).trim().split('\n'); // array of docker image IDs
+        imageIds.forEach(id => (shell.exec(`docker stop ${id} && docker rm ${id}`))); // remove said docker images
+        return true;
     } catch (error) {
-
+        console.error(`Error occurred while trying to remove docker images: ${error}`);
+        return false;
     }
 }
