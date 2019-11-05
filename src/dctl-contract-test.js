@@ -122,14 +122,7 @@ async function directoryExists(dirPath) {
  * cleanup the webserver docker images after the tests were run
  */
 function killWebserver() {
-    try {
-        const psCommand = 'docker ps --filter label=env=dragonchain_test_env --format "{{.ID}}"'; // returns only the ID from containers that match this label
-        const imageIds = shell.exec(psCommand).trim().split('\n'); // array of docker image IDs
-        console.log(`FOUND imageIds: ${imageIds}`);
-        if (imageIds.length > 0) imageIds.forEach(id => (shell.exec(`docker stop ${id} && docker rm ${id}`))); // remove said docker images
-        return true;
-    } catch (error) {
-        console.error(`Error occurred while trying to remove docker images: ${error}`);
-        return false;
-    }
+    const psCommand = 'docker ps --filter label=env=dragonchain_test_env --format "{{.ID}}"'; // returns only the ID from containers that match this label
+    const imageIds = shell.exec(psCommand).trim().split('\n'); // array of docker image IDs
+    if (imageIds.length > 0) imageIds.forEach(id => (shell.exec(`docker stop ${id} && docker rm ${id}`))); // remove said docker images
 }
