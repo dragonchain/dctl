@@ -9,7 +9,7 @@ program
   .option(
     '-c, --customIndexes [customIndexes]',
     `(optional) Json string array of custom indexes for this transaction type
-           ex: '[{"fieldName":"aField","path":".thing","type":"text","options":{"sortable":true}}]'
+           ex: '[{"fieldName":"aField","path":"thing.stuff","type":"text","options":{"sortable":true}}]'
            See here for syntax: https://node-sdk-docs.dragonchain.com/latest/interfaces/customtextfieldoptions.html`
   )
   .option('-v, --verbose', '(optional) Enable STDOUT logger in your Dragonchain SDK')
