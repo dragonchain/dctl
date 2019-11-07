@@ -26,9 +26,9 @@ program
       const networkName = 'dragonchain-webserver';
       const config = await getConfig(testRoot);
       createDockerNetwork(networkName);
-      startWebserver(localEnv, config.webserverImage, networkName, localHeap, localSecrets);
-      const contractRunShell = runContract(image, payload, networkName, config.startCommand, localEnv);
-      handleContractOutput(contractRunShell.stdout, localHeap);
+      startWebserver(localEnv, networkName, localHeap);
+      const contractRunShell = await runContract(image, payload, networkName, config.startCommand, localEnv, localSecrets);
+      await handleContractOutput(contractRunShell.stdout, localHeap);
     }
   })
   .parse(process.argv);
@@ -60,15 +60,19 @@ async function getConfig(testRoot) {
   return JSON.parse(await fs.promises.readFile(path.join(testRoot, 'config.json'), 'utf-8'));
 }
 
-function runContract(image, payload, network, startCommand, localEnv) {
-  return shell.echo(transaction(payload)).exec(`docker run -i \
+async function runContract(image, payload, network, startCommand, localEnv, localSecrets) {
+  const arrOfSecretFiles = await fs.promises.readdir('./test/secrets');
+  const arrOfMountScripts = arrOfSecretFiles.map(fileName => `-v ${path.join(localSecrets, fileName)}:/var/openfaas/secrets/sc-dummy-value-${fileName}:ro`);
+  const command = `docker run -i \
   --name dragonchain-contract \
   -l env=dragonchain_test_env \
   --network ${network} \
   --rm \
+  ${arrOfMountScripts.join(' ')} \
   --env-file ${localEnv} \
   --entrypoint '' \
-  ${image} ${startCommand}`);
+  ${image} ${startCommand}`;
+  return shell.echo(transaction(payload)).exec(command);
 }
 
 /**
@@ -79,15 +83,13 @@ function runContract(image, payload, network, startCommand, localEnv) {
  * @param {string} localHeap
  * @param {string} localSecrets
  */
-function startWebserver(localEnv, webserverImage, networkName, localHeap, localSecrets) {
+function startWebserver(localEnv, networkName, localHeap) {
   const remoteHeap = '/dragonchain/heap';
-  const remoteSecrets = '/dragonchain/secrets';
   const command = `docker run \
     --name dragonchain-webserver \
     --network ${networkName} \
     -d \
     -v ${localHeap}:${remoteHeap} \
-    -v ${localSecrets}:${remoteSecrets}:ro \
     -l env=dragonchain_test_env \
     -p 8080:8080 \
     --env-file ${localEnv} \

@@ -14,10 +14,9 @@ program
   .option('-e, --environment-variables <environmentVariables>', 'Valid JSON string. {[Key:string]: Value:string} of env vars for this SmartContract.')
   .option('-y, --yes', 'Auto-answer "yes" to any prompts')
   .option('-S, --secrets <secrets>', 'Valid JSON string. {[Key:string]: Value:string} of secrets to attach to this SmartContract.')
-  .option('-H, --https', 'Perform git clone operation via HTTPS. Default = ssh.')
   .parse(process.argv);
 
-const { environmentVariables, secrets, language, https, yes } = program || {};
+const { environmentVariables, secrets, language, yes } = program || {};
 
 async function main() {
   if (language && !languages.includes(language)) {
@@ -32,7 +31,7 @@ async function main() {
   if (language) {
     hasGitInstalledOrFail();
     await createDirectoryOrFail(tempDirectory);
-    exec(`git clone ${clonePath(https)} ${tempDirectory} --depth 1`);
+    exec(`git clone https://github.com/dragonchain/smart-contract-templates.git ${tempDirectory} --depth 1`);
     await fs.promises.rename(path.join(tempDirectory, `${language}_contract`), srcDirectory);
     await fs.promises.rename(path.join(srcDirectory, 'config.json'), path.join(testDirectory, 'config.json'));
     await fs.promises.rename(path.join(tempDirectory, 'README.md'), path.join(srcDirectory, 'README.md'));
@@ -59,15 +58,6 @@ async function getAllPaths() {
   const heapDirectory = path.join(testDirectory, 'heap');
   const secretsDirectory = path.join(testDirectory, 'secrets');
   return { root, tempDirectory, testDirectory, heapDirectory, srcDirectory, secretsDirectory };
-}
-
-/**
- * clonePath
- * @param {boolean} https use HTTPS vs default SSH
- * @returns {string} fully qualified path to clone smart-contract-templates
- */
-function clonePath(https) {
-  return https ? 'https://github.com/dragonchain/smart-contract-templates.git' : 'git@github.com:dragonchain/smart-contract-templates.git';
 }
 
 /**
