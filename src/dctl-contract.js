@@ -16,5 +16,9 @@ program
   .alias('s')
   .command('object', 'Commands for interacting with the a smart contract heap')
   .alias('o')
+  .command('init', 'Initialize a new local testing environment for a smart contract')
+  .alias('i')
+  .command('test', 'Test a smart contract')
+  .alias('t')
   .command('logs', 'Get the logs of a smart contract')
   .parse(process.argv);

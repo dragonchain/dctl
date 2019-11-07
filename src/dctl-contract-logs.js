@@ -17,7 +17,6 @@ util.wrapper(program, async client => {
   if (!smartContractId) throw new Error('Parameter "smartContractId" is required');
   const { tail, since } = program;
   const params = util.removeUndefined({ smartContractId, tail: (tail && Number(tail)) || undefined, since });
-  console.log(params);
   const result = JSON.stringify(await client.getSmartContractLogs(params), null, 2);
   console.log(result);
 });
