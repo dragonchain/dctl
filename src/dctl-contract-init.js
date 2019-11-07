@@ -20,7 +20,9 @@ program
 const { environmentVariables, secrets, language, https, yes } = program || {};
 
 async function main() {
-  hasGitInstalledOrFail();
+  if (language && !languages.includes(language)) {
+    throw new Error(`Error: Language ${language} is not yet supported. Consider adding a starter package here https://github.com/dragonchain/smart-contract-templates`);
+  }
   console.log(`Creating new local contract environment...`);
   const { tempDirectory, testDirectory, heapDirectory, srcDirectory, secretsDirectory } = await getAllPaths();
   await createDirectoryOrFail(heapDirectory);
@@ -28,9 +30,7 @@ async function main() {
   await writeEnvFile(testDirectory, environmentVariables || '{}');
   if (secrets) await writeSecretFiles(secretsDirectory, secrets);
   if (language) {
-    if (!languages.includes(language)) {
-      throw new Error(`Error: Language ${language} is not yet supported. Consider adding a starter package here https://github.com/dragonchain/smart-contract-templates`);
-    }
+    hasGitInstalledOrFail();
     await createDirectoryOrFail(tempDirectory);
     exec(`git clone ${clonePath(https)} ${tempDirectory} --depth 1`);
     await fs.promises.rename(path.join(tempDirectory, `${language}_contract`), srcDirectory);
