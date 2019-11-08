@@ -60,8 +60,17 @@ async function getConfig(testRoot) {
   return JSON.parse(await fs.promises.readFile(path.join(testRoot, 'config.json'), 'utf-8'));
 }
 
+/**
+ *
+ * @param {*} image
+ * @param {*} payload
+ * @param {*} network
+ * @param {*} startCommand
+ * @param {*} localEnv
+ * @param {*} localSecrets
+ */
 async function runContract(image, payload, network, startCommand, localEnv, localSecrets) {
-  const arrOfSecretFiles = await fs.promises.readdir('./test/secrets');
+  const arrOfSecretFiles = await fs.promises.readdir(path.join('.', 'test', 'secrets'));
   const arrOfMountScripts = arrOfSecretFiles.map(fileName => `-v ${path.join(localSecrets, fileName)}:/var/openfaas/secrets/sc-dummy-value-${fileName}:ro`);
   const command = `docker run -i \
   --name dragonchain-contract \
