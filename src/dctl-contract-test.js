@@ -79,7 +79,7 @@ async function runContract(image, payload, network, startCommand, localEnv, loca
   --rm \
   ${arrOfMountScripts.join(' ')} \
   --env-file ${localEnv} \
-  --entrypoint '' \
+  --entrypoint "" \
   ${image} ${startCommand}`;
   return shell.echo(transaction(payload)).exec(command);
 }

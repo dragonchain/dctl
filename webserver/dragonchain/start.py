@@ -25,12 +25,11 @@ def start() -> None:
     """
     Ran by the webserver before it boots
     """
-    _log.info("Booting flask")
     app = flask.Flask(__name__)
     route(app)
-    app.run(host='0.0.0.0', port=8080)
-    _log.info('killing server.')
-    # do stuff
+    _log.info("Booting flask")
+    app.run(host='0.0.0.0', port=8080)  # blocking
+    _log.info('Killing flask.')
 
 
 if __name__ == "__main__":
