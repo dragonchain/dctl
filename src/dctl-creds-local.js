@@ -3,8 +3,8 @@ const program = require('commander');
 
 program
   .version(pjson.version)
-  .command('add', 'Add an already existing HMAC key to this local machine')
-  .command('ls', 'List configured HMAC keys on this local machine')
-  .command('rm', 'Remove a configured HMAC key on this local machine')
-  .command('default', 'Change the default HMAC key for this local machine')
+  .command('add', 'Add an already existing HMAC key')
+  .command('ls', 'List configured HMAC keys')
+  .command('rm', 'Remove a configured HMAC key')
+  .command('default', 'Change the default HMAC key')
   .parse(process.argv);
