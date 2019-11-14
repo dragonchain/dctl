@@ -1,6 +1,6 @@
 {
   "name": "dctl",
-  "version": "4.1.1",
+  "version": "4.2.0",
   "description": "Get your Dragonchain out of it's shell.",
   "author": "Dragonchain, Inc. <support@dragonchain.com>",
   "license": "Apache-2.0",
