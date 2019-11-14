@@ -9,7 +9,6 @@ program
     chainId: 'The Dragonchain Id to add (or overwrite).'
   })
   .arguments('<chainId>')
-  .option('-e, --endpoint <endpoint>', '(optional) Override endpoint which would be otherwise looked-up in dragonnet')
   .option('-d, --dont-set-default', '(optional) Do not change the currently set default dragonchain id')
   .parse(process.argv);
 
