@@ -1,6 +1,6 @@
 # Changelog
 
-## 4.2.0
+## 5.0.0
 
 - **Feature:**
   - Add new commands `dctl creds remote rm`, `dctl creds remote ls`
