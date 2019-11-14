@@ -1,5 +1,10 @@
 # Changelog
 
+## 5.1.0
+
+- **Feature:**
+  - Add binance commands
+
 ## 5.0.0
 
 - **Feature:**
