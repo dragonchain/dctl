@@ -14,13 +14,13 @@ Options:
   -h, --help          output usage information
 
 Commands:
-  status|s            Get the status of your chain.
-  transaction|t       Commands for interfacing with transactions.
-  transactionType|tt  Commands for interfacing with transaction types.
+  status|s            Get the status of your chain
+  transaction|t       Commands for interfacing with transactions
+  transactionType|tt  Commands for interfacing with transaction types
   contract|c          Commands for interfacing with contracts
   block|b             Commands for interfacing with blocks
-  creds|k             Manage dragonchain credentials on this machine.
-  publicAddresses|p   Get public blockchain addresses.
+  creds|k             Manage dragonchain credentials on this machine
+  interchain|i        Manage interchains configured for a dragonchain
   help [cmd]          display help for [cmd]
 ```
 
@@ -28,6 +28,7 @@ Commands:
 
 * NodeJs >= 10.0
 * npm (or equivalent like yarn)
+* docker (for dctl contract test)
 
 ## Install
 
@@ -35,6 +36,12 @@ Install using NPM
 
 ```sh
 npm install -g dctl
+```
+
+Install using Yarn
+
+```sh
+yarn global add dctl
 ```
 
 ## Usage Examples
@@ -59,6 +66,7 @@ dctl <anyCommand...> --help
 
 ```sh
 dctl creds add yourDcIdHere -e http://localhost:8080
+ENDPOINT: ...
 HMAC KEY ID: UAKRHCSOKTYH
 HMAC KEY: ***********************************************
 Default Dragonchain set to yourDcIdHere.
