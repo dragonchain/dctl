@@ -11,7 +11,7 @@ program
     '-t, --testnet',
     '(optional) Sets this interchain to use the bitcoin testnet (defaults to mainnet). This value is automatically derived if providing private key as a WIF'
   )
-  .option('-r, --rpc-address [rpcAddress]', '(optional) The address of the bitcoin RPC to node to use (will use a dragonchain-hosted node if not provided)')
+  .option('-r, --rpc-address [rpcAddress]', '(optional) The address of the bitcoin RPC node to use (will use a dragonchain-hosted node if not provided)')
   .option(
     '-c, --rpc-authorization [rpcAuthorization]',
     '(optional) The base64-encoded username:password for a secured rpc node. For example, user: a pass: b would be \'YTpi\' (base64("a:b"))'

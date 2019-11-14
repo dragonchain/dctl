@@ -7,7 +7,7 @@ program
   })
   .arguments('<name>')
   .option('-p, --private-key [privateKey]', '(optional) Base64 or hex-encoded ethereum private key to use with this interchain. Randomly generated if not provided')
-  .option('-r, --rpc-address [rpcAddress]', '(optional) The address of the ethereum RPC to node to use (will use a dragonchain-hosted node if not provided)')
+  .option('-r, --rpc-address [rpcAddress]', '(optional) The address of the ethereum RPC node to use (will use a dragonchain-hosted node if not provided)')
   .option('-c, --chain-id [chainId]', '(optional) The ethereum chain id to use. Required if not providing rpc-adress. 1=ETH Mainnet|3=ETH Ropsten|61=ETC Mainnet|62=ETC Morden')
   .option('-v, --verbose', '(optional) Enable STDOUT logger in your Dragonchain SDK')
   .option('-i, --dragonchainId [dragonchainID]', '(optional) Override the default dragonchain ID for this command')

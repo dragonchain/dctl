@@ -7,6 +7,8 @@ program
   .alias('b')
   .command('ethereum', 'Ethereum interchain operations')
   .alias('e')
+  .command('binance', 'Binance interchain operations')
+  .alias('bn')
   .command('rm', 'Remove a configured interchain')
   .command('ls', 'List interchain networks')
   .command('get', 'Get a specific interchain network')
