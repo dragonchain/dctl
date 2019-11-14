@@ -9,15 +9,14 @@ program
     chainId: 'The Dragonchain Id to add (or overwrite).'
   })
   .arguments('<chainId>')
-  .option('-e, --endpoint <endpoint>', '(optional) Override endpoint which would be otherwise looked-up in dragonnet')
   .option('-d, --dont-set-default', '(optional) Do not change the currently set default dragonchain id')
   .parse(process.argv);
 
 util.errorHandler(() => {
   const [dragonchain_id] = program.args;
+  const endpoint = readlineSync.question(`ENDPOINT: `);
   const auth_key_id = readlineSync.question(`HMAC KEY ID: `);
   const auth_key = readlineSync.question(`HMAC KEY: `, { hideEchoBack: true });
-  const { endpoint } = program;
   if (!dragonchain_id) throw new Error('Missing Param: chainId');
   const configPath = util.getConfigFilePath();
   const dirPath = util.getConfigDirPath();
