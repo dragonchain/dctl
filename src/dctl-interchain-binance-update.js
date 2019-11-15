@@ -23,7 +23,7 @@ util.wrapper(program, async client => {
     util.removeUndefined({
       name,
       privateKey,
-      testnet: testnet || true,
+      testnet: testnet,
       nodeURL,
       rpcPort: rpcPort && Number(rpcPort),
       apiPort: apiPort && Number(apiPort)
