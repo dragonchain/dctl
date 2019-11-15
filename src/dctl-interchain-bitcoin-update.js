@@ -9,7 +9,7 @@ program
   .option('-p, --private-key [privateKey]', '(optional) Base64 or WIF bitcoin private key to use with this interchain. Randomly generated if not provided')
   .option('-t, --testnet', '(optional) Sets this interchain to use the bitcoin testnet. This value is automatically derived if providing private key as a WIF')
   .option('-m, --mainnet', '(optional) Sets this interchain to use the bitcoin mainnet. This value is automatically derived if providing private key as a WIF')
-  .option('-r, --rpc-address [rpcAddress]', '(optional) The address of the bitcoin RPC to node to use (will use a dragonchain-hosted node if not provided)')
+  .option('-r, --rpc-address [rpcAddress]', '(optional) The address of the bitcoin RPC node to use (will use a dragonchain-hosted node if not provided)')
   .option(
     '-c, --rpc-authorization [rpcAuthorization]',
     '(optional) The base64-encoded username:password for a secured rpc node. For example, user: a pass: b would be \'YTpi\' (base64("a:b"))'
