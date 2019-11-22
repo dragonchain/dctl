@@ -33,26 +33,24 @@ program
   })
   .parse(process.argv);
 
-
 /**
  * stringifyIfObject
  * Stringify an object if we need to to match the output of python on dragonchain
  * @param {*} value
  */
-function stringifyIfObject(value){
-  if(typeof value === 'object') return JSON.stringify(value);
+function stringifyIfObject(value) {
+  if (typeof value === 'object') return JSON.stringify(value);
   return value;
 }
-
 
 /**
  * Parse values if possible to match the output on dragonchain
  * @param {*} value
  */
-function parseIfPossible(value){
-  try{
+function parseIfPossible(value) {
+  try {
     return JSON.parse(value);
-  } catch(e){
+  } catch (e) {
     return value;
   }
 }
@@ -84,8 +82,8 @@ async function getConfig(testRoot) {
   return JSON.parse(await fs.promises.readFile(path.join(testRoot, 'config.json'), 'utf-8'));
 }
 
-async function getLocalSecretFileNames(localSecrets){
-  try{
+async function getLocalSecretFileNames(localSecrets) {
+  try {
     return await fs.promises.readdir(localSecrets);
   } catch (_) {
     return [];
@@ -109,7 +107,7 @@ async function runContract(image, payload, network, startCommand, localEnv, loca
   -l env=dragonchain_test_env \
   --network ${network} \
   --rm \
-  ${arrOfMountScripts.length > 0 ? arrOfMountScripts.join(' ') : ''} \
+  ${arrOfMountScripts.join(' ')} \
   --env-file ${localEnv} \
   --entrypoint "" \
   ${image} ${startCommand}`;

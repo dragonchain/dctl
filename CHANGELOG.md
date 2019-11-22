@@ -5,6 +5,7 @@
 
 - **Bugfix:**
   - fixes heap data being written incorrectly when testing smartcontracts
+  - fixes error thrown when no secrets are present
 
 
 ## 5.1.0
