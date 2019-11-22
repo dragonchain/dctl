@@ -33,10 +33,29 @@ program
   })
   .parse(process.argv);
 
-  function parsedValue(value){
-    if(typeof value === 'object') return JSON.stringify(value);
+
+/**
+ * stringifyIfObject
+ * Stringify an object if we need to to match the output of python on dragonchain
+ * @param {*} value
+ */
+function stringifyIfObject(value){
+  if(typeof value === 'object') return JSON.stringify(value);
+  return value;
+}
+
+
+/**
+ * Parse values if possible to match the output on dragonchain
+ * @param {*} value
+ */
+function parseIfPossible(value){
+  try{
+    return JSON.parse(value);
+  } catch(e){
     return value;
   }
+}
 
 /**
  * handleContractOutput
@@ -49,7 +68,7 @@ async function handleContractOutput(stdout, localHeap) {
     if (obj.OUTPUT_TO_HEAP && obj.OUTPUT_TO_HEAP === false) {
       console.warn('warn: OUTPUT_TO_HEAP false. Not writing to heap state.');
     }
-    await Promise.all(Object.entries(obj).map(([key, value]) => fs.promises.writeFile(path.join(localHeap, key), parsedValue(value))));
+    await Promise.all(Object.entries(obj).map(([key, value]) => fs.promises.writeFile(path.join(localHeap, key), stringifyIfObject(value))));
   } catch (err) {
     const raw = path.join(localHeap, 'rawResponse');
     console.warn(`warn: Contract output not valid JSON. Writing to "${raw}".`);
@@ -94,7 +113,7 @@ async function runContract(image, payload, network, startCommand, localEnv, loca
   --env-file ${localEnv} \
   --entrypoint "" \
   ${image} ${startCommand}`;
-  return shell.echo(transaction(parsedPayload(payload))).exec(command);
+  return shell.echo(transaction(parseIfPossible(payload))).exec(command);
 }
 
 /**
@@ -172,14 +191,6 @@ async function directoryExists(dirPath) {
     return status.isDirectory();
   } catch (e) {
     return false;
-  }
-}
-
-function parsedPayload(value){
-  try{
-    return JSON.parse(value);
-  } catch(e){
-    return value;
   }
 }
 
