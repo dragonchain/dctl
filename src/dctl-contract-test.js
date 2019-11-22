@@ -94,7 +94,7 @@ async function runContract(image, payload, network, startCommand, localEnv, loca
   --env-file ${localEnv} \
   --entrypoint "" \
   ${image} ${startCommand}`;
-  return shell.echo(transaction(payload)).exec(command);
+  return shell.echo(transaction(parsedPayload(payload))).exec(command);
 }
 
 /**
@@ -175,6 +175,14 @@ async function directoryExists(dirPath) {
   }
 }
 
+function parsedPayload(value){
+  try{
+    return JSON.parse(value);
+  } catch(e){
+    return value;
+  }
+}
+
 /**
  *
  * @param {string} payload
@@ -193,7 +201,7 @@ function transaction(payload, tag) {
       tag: tag || '',
       invoker: ''
     },
-    payload: JSON.parse(payload),
+    payload,
     proof: {
       full: null,
       stripped: null
