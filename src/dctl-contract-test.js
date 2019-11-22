@@ -34,6 +34,28 @@ program
   .parse(process.argv);
 
 /**
+ * stringifyIfObject
+ * Stringify an object if we need to to match the output of python on dragonchain
+ * @param {*} value
+ */
+function stringifyIfObject(value) {
+  if (typeof value === 'object') return JSON.stringify(value);
+  return value;
+}
+
+/**
+ * Parse values if possible to match the output on dragonchain
+ * @param {*} value
+ */
+function parseIfPossible(value) {
+  try {
+    return JSON.parse(value);
+  } catch (e) {
+    return value;
+  }
+}
+
+/**
  * handleContractOutput
  * @param {string} stdout
  * @param {string} localHeap
@@ -44,7 +66,7 @@ async function handleContractOutput(stdout, localHeap) {
     if (obj.OUTPUT_TO_HEAP && obj.OUTPUT_TO_HEAP === false) {
       console.warn('warn: OUTPUT_TO_HEAP false. Not writing to heap state.');
     }
-    await Promise.all(Object.entries(obj).map(([key, value]) => fs.promises.writeFile(path.join(localHeap, key), value)));
+    await Promise.all(Object.entries(obj).map(([key, value]) => fs.promises.writeFile(path.join(localHeap, key), stringifyIfObject(value))));
   } catch (err) {
     const raw = path.join(localHeap, 'rawResponse');
     console.warn(`warn: Contract output not valid JSON. Writing to "${raw}".`);
@@ -60,6 +82,14 @@ async function getConfig(testRoot) {
   return JSON.parse(await fs.promises.readFile(path.join(testRoot, 'config.json'), 'utf-8'));
 }
 
+async function getLocalSecretFileNames(localSecrets) {
+  try {
+    return await fs.promises.readdir(localSecrets);
+  } catch (_) {
+    return [];
+  }
+}
+
 /**
  *
  * @param {*} image
@@ -70,7 +100,7 @@ async function getConfig(testRoot) {
  * @param {*} localSecrets
  */
 async function runContract(image, payload, network, startCommand, localEnv, localSecrets) {
-  const arrOfSecretFiles = await fs.promises.readdir(localSecrets);
+  const arrOfSecretFiles = await getLocalSecretFileNames(localSecrets);
   const arrOfMountScripts = arrOfSecretFiles.map(fileName => `-v ${path.join(localSecrets, fileName)}:/var/openfaas/secrets/sc-dummy-value-${fileName}:ro`);
   const command = `docker run -i \
   --name dragonchain-contract \
@@ -81,7 +111,7 @@ async function runContract(image, payload, network, startCommand, localEnv, loca
   --env-file ${localEnv} \
   --entrypoint "" \
   ${image} ${startCommand}`;
-  return shell.echo(transaction(payload)).exec(command);
+  return shell.echo(transaction(parseIfPossible(payload))).exec(command);
 }
 
 /**
@@ -103,7 +133,6 @@ function startWebserver(localEnv, networkName, localHeap) {
     -p 8080:8080 \
     --env-file ${localEnv} \
     docker.io/dragonchain/dragonchain_mock_webserver:0.0.1`;
-
   shell.exec(command, { silent: true });
 }
 /**
