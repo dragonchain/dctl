@@ -33,6 +33,11 @@ program
   })
   .parse(process.argv);
 
+  function parsedValue(value){
+    if(typeof value === 'object') return JSON.stringify(value);
+    return value;
+  }
+
 /**
  * handleContractOutput
  * @param {string} stdout
@@ -44,7 +49,7 @@ async function handleContractOutput(stdout, localHeap) {
     if (obj.OUTPUT_TO_HEAP && obj.OUTPUT_TO_HEAP === false) {
       console.warn('warn: OUTPUT_TO_HEAP false. Not writing to heap state.');
     }
-    await Promise.all(Object.entries(obj).map(([key, value]) => fs.promises.writeFile(path.join(localHeap, key), value)));
+    await Promise.all(Object.entries(obj).map(([key, value]) => fs.promises.writeFile(path.join(localHeap, key), parsedValue(value))));
   } catch (err) {
     const raw = path.join(localHeap, 'rawResponse');
     console.warn(`warn: Contract output not valid JSON. Writing to "${raw}".`);
@@ -111,7 +116,6 @@ function startWebserver(localEnv, networkName, localHeap) {
     -p 8080:8080 \
     --env-file ${localEnv} \
     docker.io/dragonchain/dragonchain_mock_webserver:0.0.1`;
-
   shell.exec(command, { silent: true });
 }
 /**
@@ -189,7 +193,7 @@ function transaction(payload, tag) {
       tag: tag || '',
       invoker: ''
     },
-    payload,
+    payload: JSON.parse(payload),
     proof: {
       full: null,
       stripped: null
