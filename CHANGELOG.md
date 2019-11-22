@@ -1,5 +1,12 @@
 # Changelog
 
+
+## 5.1.1
+
+- **Bugfix:**
+  - fixes heap data being written incorrectly when testing smartcontracts
+
+
 ## 5.1.0
 
 - **Feature:**
