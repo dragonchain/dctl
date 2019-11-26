@@ -1,6 +1,12 @@
 # Changelog
 
 
+## 5.1.2
+
+- **Bugfix:**
+  - fixes binance chain create and update network flags
+
+
 ## 5.1.1
 
 - **Bugfix:**
