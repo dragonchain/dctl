@@ -1,18 +1,22 @@
 # Changelog
 
+## 5.2.0
+
+- **Feature:**
+  - Add support for api key permissioning
+- **Development:**
+  - Update dependencies
 
 ## 5.1.2
 
 - **Bugfix:**
   - fixes binance chain create and update network flags
 
-
 ## 5.1.1
 
 - **Bugfix:**
   - fixes heap data being written incorrectly when testing smartcontracts
   - fixes error thrown when no secrets are present
-
 
 ## 5.1.0
 

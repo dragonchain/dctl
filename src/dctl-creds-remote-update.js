@@ -7,11 +7,14 @@ program
   })
   .arguments('<keyId>')
   .option('-n, --nickname <nickname>', 'Updated nickname for the given key')
+  .option('-p, --permissionsDocument <permissionsDocument>', '(optional) new JSON permissions document to assign to this key')
   .parse(process.argv);
 
 util.wrapper(program, async client => {
   const [keyId] = program.args;
-  if (!program.nickname) throw new Error('You must provide a nickname for updating an hmac key');
-  const response = await client.updateApiKey({ keyId, nickname: program.nickname });
+  const { nickname, permissionsDocument } = program;
+  let permissionDocumentJSON = undefined;
+  if (permissionsDocument) permissionDocumentJSON = JSON.parse(permissionsDocument);
+  const response = await client.updateApiKey({ keyId, nickname, permissionsDocument: permissionDocumentJSON });
   console.log(JSON.stringify(response, null, 2));
 });
