@@ -1,5 +1,10 @@
 # Changelog
 
+# 5.3.0
+
+- **Feature:**
+  - Add `dctl transaction eternal <transactionId>` to get eternal proof report for a transaction
+
 ## 5.2.0
 
 - **Feature:**
