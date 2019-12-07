@@ -11,4 +11,6 @@ program
   .alias('g')
   .command('query', 'Get a transaction by query')
   .alias('q')
+  .command('eternal', 'Get an eternal proof report for a transaction')
+  .alias('e')
   .parse(process.argv);
