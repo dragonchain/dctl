@@ -20,9 +20,8 @@ util.wrapper(program, async client => {
     return generateReport(transaction, block, verifications);
   }
 
-  console.log(JSON.stringify(await getEternalReport(), null, 2))
+  console.log(JSON.stringify(await getEternalReport(), null, 2));
 });
-
 
 function appendTransaction(report, transaction) {
   report.l1Transaction = transaction && transaction.response;
@@ -44,7 +43,7 @@ function getL1BlockId(transaction) {
 }
 
 function generateReport(transaction, block, verifications) {
-  const report = {}
+  const report = {};
   appendTransaction(report, transaction);
   appendBlock(report, block);
   appendVerifications(report, verifications);
