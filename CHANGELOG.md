@@ -4,6 +4,8 @@
 
 - **Bugs:**
   - Update Dragonchain mock webserver to fix bugs resolved in dragonchain
+- **Development:**
+  - Update dependencies
 
 ## 5.3.0
 
