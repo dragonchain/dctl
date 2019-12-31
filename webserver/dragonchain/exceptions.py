@@ -1,4 +1,4 @@
-# Copyright 2019 Dragonchain, Inc.
+# Copyright 2020 Dragonchain, Inc.
 # Licensed under the Apache License, Version 2.0 (the "Apache License")
 # with the following modification; you may not use this file except in
 # compliance with the Apache License and the following modification to it:
@@ -63,6 +63,10 @@ class LabChainForbiddenException(DragonchainException):
 
 class NotFound(DragonchainException):
     """Exception raised when object is not found"""
+
+
+class UnableToUpdate(DragonchainException):
+    """Exception raised by matchmaking client when it cannot find enough nodes to replace non responsive"""
 
 
 class BadRequest(DragonchainException):
@@ -165,6 +169,10 @@ class RedisearchFailure(DragonchainException):
 
 class MatchmakingError(DragonchainException):
     """Exception raised by matchmaking client when a problem has occurred"""
+
+
+class MatchmakingRetryableError(DragonchainException):
+    """Exception raised by matchmaking when there is a server error"""
 
 
 class PartyError(DragonchainException):

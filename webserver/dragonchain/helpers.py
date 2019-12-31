@@ -1,4 +1,4 @@
-# Copyright 2019 Dragonchain, Inc.
+# Copyright 2020 Dragonchain, Inc.
 # Licensed under the Apache License, Version 2.0 (the "Apache License")
 # with the following modification; you may not use this file except in
 # compliance with the Apache License and the following modification to it:
@@ -19,6 +19,7 @@ import json
 from typing import Tuple, Dict, Any
 
 from werkzeug import exceptions as werkzeug_exceptions
+
 from webserver.dragonchain import logger
 from webserver.dragonchain import exceptions
 
@@ -148,7 +149,7 @@ def webserver_error_handler(exception: Exception) -> Tuple[str, int, Dict[str, s
         status_code = 409
         surface_error = INTERCHAIN_CONFLICT
     elif isinstance(exception, exceptions.InvalidTransactionType):
-        status_code = 403
+        status_code = 400
         surface_error = INVALID_TRANSACTION_TYPE
     elif isinstance(exception, exceptions.ContractLimitExceeded):
         status_code = 403

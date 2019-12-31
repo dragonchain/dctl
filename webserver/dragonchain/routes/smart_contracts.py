@@ -1,4 +1,4 @@
-# Copyright 2019 Dragonchain, Inc.
+# Copyright 2020 Dragonchain, Inc.
 # Licensed under the Apache License, Version 2.0 (the "Apache License")
 # with the following modification; you may not use this file except in
 # compliance with the Apache License and the following modification to it:
@@ -18,16 +18,15 @@
 from typing import Tuple, Dict
 
 import flask
+
 from webserver.dragonchain import helpers
 from webserver.dragonchain import exceptions
 from webserver.dragonchain.lib import smart_contracts
 
 
 def apply_routes(app: flask.Flask):
-    app.add_url_rule("/v1/get/<path:key>", "get_sc_heap_v1",
-                     get_sc_heap_v1, methods=["GET"])  # :path allows / in key variable
-    app.add_url_rule("/v1/list/<path:prefix_key>", "list_sc_heap_v1",
-                     list_sc_heap_v1, methods=["GET"])  # :path allows / in key variable
+    app.add_url_rule("/v1/get/<path:key>", "get_sc_heap_v1", get_sc_heap_v1, methods=["GET"])  # :path allows / in key variable
+    app.add_url_rule("/v1/list/<path:prefix_key>", "list_sc_heap_v1", list_sc_heap_v1, methods=["GET"])  # :path allows / in key variable
 
 
 def get_sc_heap_v1(key: str) -> Tuple[str, int]:
@@ -40,8 +39,7 @@ def get_sc_heap_v1(key: str) -> Tuple[str, int]:
     """
     initial_index = key.find("/")
     if initial_index == -1:
-        raise exceptions.BadRequest(
-            "Path must look like /v1/get/<contract_id>/<object_key>")
+        raise exceptions.BadRequest("Path must look like /v1/get/<contract_id>/<object_key>")
     contract_id = key[:initial_index]
     path = key[initial_index:]
     return (

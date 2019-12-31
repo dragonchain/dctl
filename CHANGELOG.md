@@ -1,5 +1,10 @@
 # Changelog
 
+## 5.3.1
+
+- **Bugs:**
+  - Update Dragonchain mock webserver to fix bugs resolved in dragonchain
+
 ## 5.3.0
 
 - **Feature:**
