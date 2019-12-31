@@ -65,5 +65,6 @@ def list_sc_heap_v1(prefix_key: str) -> Tuple[str, int, Dict[str, str]]:
         raise exceptions.BadRequest(
             "Path must look like /v1/list/<contract_id>/<object_folder> or /v1/list/<contract_id>/ to search the root of the heap"
         )
+    contract_id = prefix_key[:initial_index]
     path = prefix_key[initial_index:]
-    return helpers.flask_http_response(200, smart_contracts.heap_list_v1(path))
+    return helpers.flask_http_response(200, smart_contracts.heap_list_v1(contract_id, path))
