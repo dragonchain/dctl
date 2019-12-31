@@ -132,7 +132,7 @@ function startWebserver(localEnv, networkName, localHeap) {
     -l env=dragonchain_test_env \
     -p 8080:8080 \
     --env-file ${localEnv} \
-    docker.io/dragonchain/dragonchain_mock_webserver:0.0.1`;
+    docker.io/dragonchain/dragonchain_mock_webserver:0.0.2`;
   shell.exec(command, { silent: true });
 }
 /**

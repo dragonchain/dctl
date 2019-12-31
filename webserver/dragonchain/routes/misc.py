@@ -1,4 +1,4 @@
-# Copyright 2019 Dragonchain, Inc.
+# Copyright 2020 Dragonchain, Inc.
 # Licensed under the Apache License, Version 2.0 (the "Apache License")
 # with the following modification; you may not use this file except in
 # compliance with the Apache License and the following modification to it:
@@ -18,12 +18,12 @@
 from typing import Tuple
 
 import flask
+
 from webserver.dragonchain import helpers
 
 
 def apply_routes(app: flask.Flask):
-    app.add_url_rule("/status", "status",
-                     status, methods=["GET"])  # :path allows / in key variable
+    app.add_url_rule("/status", "status", status, methods=["GET"])  # :path allows / in key variable
 
 
 def status() -> Tuple[str, int]:

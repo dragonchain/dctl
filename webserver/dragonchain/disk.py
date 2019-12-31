@@ -1,4 +1,4 @@
-# Copyright 2019 Dragonchain, Inc.
+# Copyright 2020 Dragonchain, Inc.
 # Licensed under the Apache License, Version 2.0 (the "Apache License")
 # with the following modification; you may not use this file except in
 # compliance with the Apache License and the following modification to it:
@@ -22,6 +22,8 @@ from typing import List
 from webserver.dragonchain import exceptions
 from webserver.dragonchain import logger
 
+ABS_LOCATION = '/dragonchain/heap'
+
 _log = logger.get_logger()
 
 
@@ -30,16 +32,14 @@ def process_key(key: str) -> str:
     This function is for creating safe keys
     Currently this only replaces '..', should be expanded to be (or use) a full sanitizer in the future
     """
-    key = key.replace(
-        "..", "__")  # Don't allow keys to traverse back a directory
+    key = key.replace("..", "__")  # Don't allow keys to traverse back a directory
     return key
 
 
-def get(location: str, key: str) -> bytes:
+def get(key: str) -> bytes:
     key = process_key(key)
     try:
-        print(location + key)
-        file = open(location + key, "rb")
+        file = open(os.path.join(ABS_LOCATION, key), "rb")
     except FileNotFoundError:
         raise exceptions.NotFound
     contents = file.read()
@@ -47,9 +47,9 @@ def get(location: str, key: str) -> bytes:
     return contents
 
 
-def put(location: str, key: str, value: bytes) -> None:
+def put(key: str, value: bytes) -> None:
     key = process_key(key)
-    path = os.path.join(location, key)
+    path = os.path.join(ABS_LOCATION, key)
     try:
         file = open(path, "wb")
     except (NotADirectoryError, FileNotFoundError):
@@ -60,29 +60,43 @@ def put(location: str, key: str, value: bytes) -> None:
     file.close()
 
 
-def delete(location: str, key: str) -> None:
+def delete(key: str) -> None:
     key = process_key(key)
-    os.remove(os.path.join(location, key))
+    try:
+        os.remove(os.path.join(ABS_LOCATION, key))
+    except FileNotFoundError:
+        # File is already deleted if it's not found
+        pass
+    except Exception:
+        raise
 
 
-def delete_directory(location: str, directory_key: str) -> None:
+def delete_directory(directory_key: str) -> None:
     """
     Recursively delete all directories under (and including) directory_key
     Will ONLY delete a directory if it's empty (or only comtains empty folders)
     Will raise an exception if deleting a directory containing any files
     """
-    directory_key = process_key(directory_key)
+    directory_key = os.path.join(ABS_LOCATION, process_key(directory_key))
+    # Walk and delete an sub-folders/directories (does not fail with non-existent folder)
     for root, dirnames, _ in os.walk(directory_key, topdown=False):
         for dirname in dirnames:
             os.rmdir(os.path.join(root, dirname))
-    os.rmdir(directory_key)
+    # Remove the empty directory
+    try:
+        os.rmdir(directory_key)
+    except FileNotFoundError:
+        # Folder is already deleted if it's not found
+        pass
+    except Exception:
+        raise
 
 
-def select_transaction(location: str, block_id: str, txn_id: str) -> dict:
+def select_transaction(block_id: str, txn_id: str) -> dict:
     block_id = process_key(block_id)
     # Unfortunately, we can't cache this get due to recursive imports
     # If it is possible, this should be revisited
-    obj = get(location, os.path.join("TRANSACTION", block_id)).decode("utf8")
+    obj = get(ABS_LOCATION, os.path.join("TRANSACTION", block_id)).decode("utf8")
     transactions = obj.split("\n")
     for transaction in transactions:
         try:
@@ -90,27 +104,28 @@ def select_transaction(location: str, block_id: str, txn_id: str) -> dict:
             if loaded_txn["txn_id"] == txn_id:
                 return loaded_txn["txn"]
         except Exception:
-            _log.exception(
-                "Error loading retrieved transaction from disk select_transaction")
+            _log.exception("Error loading retrieved transaction from disk select_transaction")
     raise exceptions.NotFound
 
 
 def list_objects(prefix: str) -> List[str]:
-    abs_path = '/dragonchain/heap'
+    prefix = process_key(prefix)
+    directory = os.path.dirname(prefix)
+    base = os.path.join(ABS_LOCATION, directory)
     prefixed_keys = []
-    for _, _, files in os.walk(abs_path):
+    for root, _, files in os.walk(base):
         for name in files:
-            if name.startswith(prefix[1:]):
-                key = os.path.join(abs_path, name)
+            key = os.path.relpath(os.path.join(root, name), ABS_LOCATION)
+            if key.startswith(prefix):
                 prefixed_keys.append(key)
     return prefixed_keys
 
 
-def does_superkey_exist(location: str, key: str) -> bool:
+def does_superkey_exist(key: str) -> bool:
     key = process_key(key)
-    return os.path.isdir(os.path.join(location, key))
+    return os.path.isdir(os.path.join(ABS_LOCATION, key))
 
 
-def does_object_exist(location: str, key: str) -> bool:
+def does_object_exist(key: str) -> bool:
     key = process_key(key)
-    return os.path.isfile(os.path.join(location, key))
+    return os.path.isfile(os.path.join(ABS_LOCATION, key))
