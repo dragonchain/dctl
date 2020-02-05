@@ -1,5 +1,13 @@
 # Changelog
 
+## 5.4.0
+
+- **Feature:**
+  - Update `dctl contract rm` to support an optional transaction type (like `dctl contract get`)
+  - Add `dctl interchain publish` to support publishing a signed transaction on a Dragonchain interchain network
+- **Development:**
+  - Update dependencies
+
 ## 5.3.1
 
 - **Bugs:**
