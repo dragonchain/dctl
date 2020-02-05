@@ -15,4 +15,6 @@ program
   .alias('g')
   .command('default', 'Operations for getting/setting default interchains (l5 only)')
   .alias('d')
+  .command('publish', 'Publish a signed interchain transaction')
+  .alias('p')
   .parse(process.argv);
