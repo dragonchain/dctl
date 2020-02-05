@@ -5,7 +5,7 @@ program
   .description('Publish a signed interchain transaction on the public network', {
     blockchain: "The blockchain type to set (i.e. 'bitcoin', 'ethereum', etc)",
     name: 'The name of the configured interchain to set as default',
-    signedTransaction: "The signed interchain transaction to publish (what is returned from `dctl interchain <blockchain> transaction`"
+    signedTransaction: 'The signed interchain transaction to publish (what is returned from `dctl interchain <blockchain> transaction`'
   })
   .arguments('<blockchain> <name> <signedTransaction>')
   .option('-v, --verbose', '(optional) Enable STDOUT logger in your Dragonchain SDK')
