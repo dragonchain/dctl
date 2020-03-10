@@ -1,5 +1,10 @@
 # Changelog
 
+## 5.4.1
+
+- **Bugs:**
+  - Add additional option `-a` in contract create for case where arguments can't normally be parsed on the command line (such as when desired argument is a flag itself)
+
 ## 5.4.0
 
 - **Feature:**

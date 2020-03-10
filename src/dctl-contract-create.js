@@ -21,10 +21,13 @@ program
            ex: '[{"fieldName":"aField","path":".thing","type":"text","options":{"sortable":true}}]'
            See here for syntax: https://node-sdk-docs.dragonchain.com/latest/interfaces/customtextfieldoptions.html`
   )
+  .option('-a, --argsJSON <argsJSON>', 'JSON string array of container arguments (if args cannot be parsed normally)')
   .option('-v, --verbose', '(optional) Enable STDOUT logger in your Dragonchain SDK')
   .option('-i, --dragonchainId [dragonchainID]', '(optional) Override the default dragonchain ID for this command')
   .action((transactionType, image, cmd, containerArgs, options) => {
-    const { customIndexes, serial, environmentVariables, secrets, scheduleIntervalInSeconds, cronExpression, registryCredentials } = options;
+    const { customIndexes, serial, environmentVariables, secrets, scheduleIntervalInSeconds, cronExpression, registryCredentials, argsJSON } = options;
+    let usedArgs = containerArgs;
+    if (argsJSON) usedArgs = JSON.parse(argsJSON);
     util.wrapper(program, async client => {
       const params = util.removeUndefined({
         transactionType,
@@ -33,7 +36,7 @@ program
         secrets: secrets ? JSON.parse(secrets) : undefined,
         registryCredentials,
         cronExpression,
-        args: containerArgs,
+        args: usedArgs,
         scheduleIntervalInSeconds: scheduleIntervalInSeconds && Number(scheduleIntervalInSeconds),
         environmentVariables: environmentVariables && JSON.parse(environmentVariables),
         executionOrder: serial ? 'serial' : 'parallel',
