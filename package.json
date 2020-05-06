@@ -1,6 +1,6 @@
 {
   "name": "dctl",
-  "version": "5.4.1",
+  "version": "5.4.2",
   "description": "Get your Dragonchain out of it's shell.",
   "author": "Dragonchain, Inc. <support@dragonchain.com>",
   "license": "Apache-2.0",
@@ -21,7 +21,7 @@
   "dependencies": {
     "commander": "^4.1.1",
     "del": "^5.1.0",
-    "dragonchain-sdk": "^4.3.0",
+    "dragonchain-sdk": "^4.3.3",
     "get-stdin": "^7.0.0",
     "ini": "^1.3.5",
     "readline-sync": "^1.4.10",
