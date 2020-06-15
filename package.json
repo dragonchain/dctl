@@ -21,7 +21,7 @@
   "dependencies": {
     "commander": "^4.1.1",
     "del": "^5.1.0",
-    "dragonchain-sdk": "^4.3.0",
+    "dragonchain-sdk": "/Users/alexbenedetto/Documents/git/dragonchain-sdk-javascript",
     "get-stdin": "^7.0.0",
     "ini": "^1.3.5",
     "readline-sync": "^1.4.10",
